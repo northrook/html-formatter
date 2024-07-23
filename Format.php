@@ -44,7 +44,7 @@ class Format
     public static function newline( string $string, Newline $strategy = Newline::Auto ) : string {
 
         // Trim the provided string.
-        $string = Minify::squish( $string );
+        $string = \trim( $string );
 
         // Bail early if the string was empty, null, or nothing but whitespace.
         if ( !$string ) {
