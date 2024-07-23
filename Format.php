@@ -41,7 +41,11 @@ class Format
         return Format::newline( $string, Newline::Span );
     }
 
-    public static function newline( string $string, Newline $strategy = Newline::Auto ) : string {
+    public static function newline(
+        string  $string,
+        Newline $strategy = Newline::Auto,
+        array   $attributes = [],
+    ) : string {
 
         // Trim the provided string.
         $string = \trim( $string );
@@ -55,11 +59,11 @@ class Format
         $lines = Format::explodeLinebreaks( $string );
 
         return match ( $strategy ) {
-            Newline::Paragraph => Format::implodeWrap( $lines, 'p' ),
-            Newline::Span      => Format::implodeWrap( $lines, 'span' ),
-            Newline::Auto      => count( $lines ) === 1
-                ? '<span>' . trim( $string ) . '</span>'
-                : Format::implodeWrap( $lines, 'p' ),
+            Newline::Paragraph => Format::implodeWrap( $lines, 'p', $attributes ),
+            Newline::Span      => Format::implodeWrap( $lines, 'span', $attributes ),
+            Newline::Auto      => \count( $lines ) === 1
+                ? Format::implodeWrap( $lines, 'span', $attributes )
+                : Format::implodeWrap( $lines, 'p', $attributes ),
         };
     }
 
